@@ -20,12 +20,11 @@ def canUnlockAll(boxes):
     unlocked_boxes = {0}  # Set to keep track of unlocked boxes
     box_queue = deque([0])  # Queue to process boxes
     while box_queue:
-        current_box = box_queue.popleft() # Dequeue the first box
+        current_box = box_queue.popleft()  # Dequeue the first box
         # Iterate through keys in the current box
         for key in boxes[current_box]:
             # Check if key is valid and not already unlocked
             if key < n and key not in unlocked_boxes:
-                unlocked_boxes.add(key) # Add the key to unlocked set
-                box_queue.append(key) # Enqueue the corresponding box
+                unlocked_boxes.add(key)  # Add the key to unlocked set
+                box_queue.append(key)  # Enqueue the corresponding box
     return len(unlocked_boxes) == n
-
