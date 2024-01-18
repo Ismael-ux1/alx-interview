@@ -11,16 +11,26 @@ def minOperations(n):
     - int: The minimum number of operations to get n 'H's.
     """
 
-    # Base case: if n is 1, no operations are needed.
-    if n == 1:
+    # If n is less than or equal to 0,
+    # return 0 as it's impossible to have 'H' characters
+    if n <= 1:
         return 0
-    # For each number of i from n//2 down to 1...
-    for i in range(n//2, 0, -1):
-        # If n is divisible by i.
-        if n % i == 0:
-            #  Recursively solve the problem for i, and add the of,
-            # operations needed to reach n from i by pasting.
-            return minOperations(i) + n // i
-        # If no i is found such that n is divisible by i, return 0.
-        # This means that n is impossible to achive.
-        return 0
+    # Initialize the result to 0
+    res = 0
+
+    # Initialize the divisor to 2
+    p = 2
+
+    # Loop until n is greater than 1
+    while n > 1:
+        # While n is divisible by p
+        while n % p == 0:
+
+            # Add p to the result
+            res += p
+            # Divide n by p.
+            n //= p
+        # Increament p by 1
+        p += 1
+    # Return the result
+    return res
