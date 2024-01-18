@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 """ Calculate the minimum number of operations to get n 'H's. """
 
 
