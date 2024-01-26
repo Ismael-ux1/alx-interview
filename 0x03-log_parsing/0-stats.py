@@ -24,7 +24,7 @@ def print_stats():
     """
     This function prints the total file size and the count of each status code.
     """
-    print("Total file size: File size:", total_size)
+    print("File size:", total_size)
     for code in sorted(status_codes.keys()):
         if status_codes[code] > 0:
             print(code, ":", status_codes[code])
