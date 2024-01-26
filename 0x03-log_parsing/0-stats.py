@@ -22,7 +22,7 @@ def print_stats():
     print("Total file size: File size:", total_size)
     for code in sorted(status_codes.keys()):
         if status_codes[code] > 0:
-            print(code, ":", status_codes[code])
+            print(f"{code}: {status_codes[code]}")
 
 
 # Handle keyboard interruption
