@@ -27,7 +27,7 @@ def print_stats():
     print("File size:", total_size)
     for code in sorted(status_codes.keys()):
         if status_codes[code] > 0:
-            print(code, ":", status_codes[code])
+            print(f'{code}: {status_codes[code]}')
 
 
 def signal_handler(sig, frame):
