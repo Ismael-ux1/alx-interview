@@ -16,6 +16,9 @@ log_format = re.compile(
 
 
 def print_stats():
+    """
+    This function prints the total file size and the count of each status code
+    """
     print("Total file size: File size:", total_size)
     for code in sorted(status_codes.keys()):
         if status_codes[code] > 0:
@@ -24,6 +27,10 @@ def print_stats():
 
 # Handle keyboard interruption
 def signal_handler(sig, frame):
+    """
+    This function handles keyboard interruption (CTRL + C).
+    It prints the current statistics and exits the program.
+    """
     print_stats()
     sys.exit(0)
 
