@@ -52,14 +52,6 @@ for line in sys.stdin:
         status_code = int(match.group(3))
         if status_code in status_codes:
             status_codes[status_code] += 1
-    else:
-        parts = line.split()
-        if len(parts) > 6:
-            status_code = int(parts[-2])
-            file_size = int(parts[-1])
-            if status_code in status_codes:
-                status_codes[status_code] += 1
-            total_size += file_size
 
     line_count += 1
     # Print stats every 10 lines
