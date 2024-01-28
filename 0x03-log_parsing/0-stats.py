@@ -24,10 +24,10 @@ def print_stats():
     """
     This function prints the total file size and the count of each status code.
     """
-    print("File size:", total_size)
+    print("File size: {}".format(total_size))
     for code in sorted(status_codes.keys()):
         if status_codes[code] > 0:
-            print(f'{code}: {status_codes[code]}')
+            print("{}: {}".format(code, status_codes[code]))
 
 
 def signal_handler(sig, frame):
