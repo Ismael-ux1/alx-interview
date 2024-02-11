@@ -8,7 +8,7 @@ def print_solution(board):
     solution = []
     for i in range(len(board)):
         solution.append([i, board[i]])
-        print(solution)
+    print(solution)
 
 
 def is_safe(board, row, col):
@@ -38,19 +38,16 @@ def check_args():
     """ Check and validate the arguments """
     if len(sys.argv) != 2:
         print("Usage: nqueen N")
-        raise ValueError("Invalid number of arguments")
         sys.exit(1)
 
     if not sys.argv[1].isdigit():
         print("N must be a number")
-        raise ValueError("N must be a number")
         sys.exis(1)
 
     n = int(sys.argv[1])
 
     if n < 4:
         print("N must be at least 4")
-        raise ValueError("N must be at least 4")
         sys.exit(1)
 
     return n
