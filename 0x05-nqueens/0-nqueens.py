@@ -5,18 +5,20 @@ import sys
 
 def print_solution(board):
     """ print the solution """
-    solution = []
+    print("[", end="")
     for i in range(len(board)):
-        solution.append([i, board[i]])
-    print(solution)
+        if i != 0:
+            print(", ", end="")
+        print("[{}, {}]".format(i, board[i]), end="")
+    print("]")
 
 
 def is_safe(board, row, col):
     """ check if it's safe to place a queen at board[x][y]. """
     for i in range(col):
         if board[i] == row or \
-                board[i] == row - col or \
-                board[i] == row + col:
+                board[i] - i == row - col or \
+                board[i] + i == row + col:
             return False
     return True
 
