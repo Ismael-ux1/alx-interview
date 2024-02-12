@@ -42,11 +42,12 @@ def check_args():
         print("Usage: nqueen N")
         sys.exit(1)
 
+    arg = sys.argv[1]
     if not sys.argv[1].isdigit():
         print("N must be a number")
         sys.exis(1)
 
-    n = int(sys.argv[1])
+    n = int(arg)
 
     if n < 4:
         print("N must be at least 4")
