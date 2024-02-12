@@ -39,7 +39,7 @@ def solve_n_queens(board, col):
 def check_args():
     """ Check and validate the arguments """
     if len(sys.argv) != 2:
-        print("Usage: nqueen N")
+        print("Usage: nqueens N")
         sys.exit(1)
 
     arg = sys.argv[1]
