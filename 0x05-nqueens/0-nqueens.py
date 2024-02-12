@@ -38,14 +38,14 @@ def solve_n_queens(board, col):
 
 def check_args():
     """ Check and validate the arguments """
-    if len(sys.argv) != 2 or not sys.argv[1]:
+    if len(sys.argv) != 2:
         print("Usage: nqueen N")
         sys.exit(1)
 
     arg = sys.argv[1]
     if not arg.isdigit():
         print("N must be a number")
-        sys.exis(1)
+        sys.exit(1)
 
     n = int(arg)
 
