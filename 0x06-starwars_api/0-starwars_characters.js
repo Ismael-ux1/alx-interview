@@ -11,13 +11,21 @@ async function getCharacterNames (movieId) {
     // Extract the list of character URLs from the response
     const characterUrls = response.data.characters;
 
+    // Create an array to store the character names
+    const characterNames = [];
+
     // Loop over each character URL
     for (const url of characterUrls) {
       // Send a GET request to each character URL
       const characterResponse = await axios.get(url);
 
-      // Print the name of the character
-      console.log(characterResponse.data.name);
+      // Add the character name to the array
+      characterNames.push(characterResponse.data.name);
+    }
+
+    // Print the character names in the order they were received
+    for (const name of characterNames) {
+      console.log(name);
     }
   } catch (error) {
     // If there's an error, print it
