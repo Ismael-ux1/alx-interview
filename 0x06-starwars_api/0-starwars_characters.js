@@ -1,41 +1,38 @@
 #!/usr/bin/node
-const https = require('https');
+const request = require('request');
 
-function printMovieCharacters(movieId) {
-  const movieUrl = `https://swapi.dev/api/films/${movieId}`;
+// Get the Movie ID from the command line arguments
+const movieId = process.argv[2];
 
-  https.get(movieUrl, (response) => {
-    if (response.statusCode !== 200) {
-      console.error(`Error: Status code ${response.statusCode}`);
-      return;
-    }
+// Define the URL for the SWAPI /films/ endpoint
+const url = `https://swapi.dev/api/films/${movieId}/`;
 
-    response.on('data', (data) => {
-      const movieData = JSON.parse(data);
-      const characters = movieData.characters;
+// Send a GET request to the SWAPI
+request(url, (error, response, body) => {
+  if (error) {
+    console.error('An error occurred: ', error);
+    return;
+  }
 
-      characters.forEach((characterUrl) => {
-        https.get(characterUrl, (response) => {
-          if (response.statusCode !== 200) {
-            console.error(`Error: Status code ${response.statusCode}`);
-            return;
-          }
+  // Parse the response body
+  const film = JSON.parse(body);
 
-          response.on('data', (data) => {
-            const characterData = JSON.parse(data);
-            console.log(characterData.name);
-          });
-        });
-      });
+  // Get the list of character URLs
+  const characterUrls = film.characters;
+
+  // Fetch each character
+  characterUrls.forEach((characterUrl) => {
+    request(characterUrl, (error, response, body) => {
+      if (error) {
+        console.error('An error occurred: ', error);
+        return;
+      }
+
+      // Parse the response body
+      const character = JSON.parse(body);
+
+      // Print the character's name
+      console.log(character.name);
     });
   });
-}
-
-const movieId = parseInt(process.argv[2]); // Get movie ID from the second argument
-
-if (!movieId) {
-  console.error('Please provide a Star Wars movie ID as an argument.');
-  process.exit(1);
-}
-
-printMovieCharacters(movieId);
+});
