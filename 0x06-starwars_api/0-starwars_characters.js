@@ -1,42 +1,42 @@
 #!/usr/bin/node
-const axios = require('axios');
-const process = require('process');
 
-async function getMovieCharacters(movieId) {
-    try {
-        const response = await axios.get(`https://swapi.dev/api/films/${movieId}/`);
-        const movieData = response.data;
-        const charactersUrls = movieData.characters || [];
+const https = require('https');
 
-        const characters = await Promise.all(
-            charactersUrls.map(async (characterUrl) => {
-                const characterResponse = await axios.get(characterUrl);
-                return characterResponse.data.name;
-            })
-        );
+function printMovieCharacters(movieId) {
+  const movieUrl = `https://swapi.dev/api/films/${movieId}`;
 
-        return characters;
-    } catch (error) {
-        console.error(`Failed to retrieve data for Movie ID ${movieId}.`);
-        return [];
+  https.get(movieUrl, (response) => {
+    if (response.statusCode !== 200) {
+      console.error(`Error: Status code ${response.statusCode}`);
+      return;
     }
+
+    response.on('data', (data) => {
+      const movieData = JSON.parse(data);
+      const characters = movieData.characters;
+
+      characters.forEach((characterUrl) => {
+        https.get(characterUrl, (response) => {
+          if (response.statusCode !== 200) {
+            console.error(`Error: Status code ${response.statusCode}`);
+            return;
+          }
+
+          response.on('data', (data) => {
+            const characterData = JSON.parse(data);
+            console.log(characterData.name);
+          });
+        });
+      });
+    });
+  });
 }
 
-async function main() {
-    if (process.argv.length !== 3) {
-        console.error("Usage: node script.js <Movie ID>");
-        process.exit(1);
-    }
+const movieId = parseInt(process.argv[2]); // Get movie ID from the second argument
 
-    const movieId = process.argv[2];
-    const characters = await getMovieCharacters(movieId);
-    
-    if (characters.length > 0) {
-        characters.forEach(character => console.log(character));
-    } else {
-        console.log("No characters found for the provided Movie ID.");
-    }
+if (!movieId) {
+  console.error('Please provide a Star Wars movie ID as an argument.');
+  process.exit(1);
 }
 
-main();
-
+printMovieCharacters(movieId);
