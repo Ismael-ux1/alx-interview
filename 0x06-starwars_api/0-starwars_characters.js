@@ -1,5 +1,4 @@
 #!/usr/bin/node
-
 const https = require('https');
 
 function printMovieCharacters(movieId) {
