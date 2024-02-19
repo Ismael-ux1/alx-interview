@@ -1,40 +1,42 @@
 #!/usr/bin/node
-// Import the axios module
 const axios = require('axios');
+const process = require('process');
 
-// Define an asynchronous function to get character names
-async function getCharacterNames (movieId) {
-  try {
-    // Send a GET request to the SWAPI films endpoint with the movie ID
-    const response = await axios.get(`https://swapi.dev/api/films/${movieId}/`);
+async function getMovieCharacters(movieId) {
+    try {
+        const response = await axios.get(`https://swapi.dev/api/films/${movieId}/`);
+        const movieData = response.data;
+        const charactersUrls = movieData.characters || [];
 
-    // Extract the list of character URLs from the response
-    const characterUrls = response.data.characters;
+        const characters = await Promise.all(
+            charactersUrls.map(async (characterUrl) => {
+                const characterResponse = await axios.get(characterUrl);
+                return characterResponse.data.name;
+            })
+        );
 
-    // Create an array to store the character names
-    const characterNames = [];
-
-    // Loop over each character URL
-    for (const url of characterUrls) {
-      // Send a GET request to each character URL
-      const characterResponse = await axios.get(url);
-
-      // Add the character name to the array
-      characterNames.push(characterResponse.data.name);
+        return characters;
+    } catch (error) {
+        console.error(`Failed to retrieve data for Movie ID ${movieId}.`);
+        return [];
     }
-
-    // Print the character names in the order they were received
-    for (const name of characterNames) {
-      console.log(name);
-    }
-  } catch (error) {
-    // If there's an error, print it
-    console.error(error);
-  }
 }
 
-// Get the movie ID from the command line arguments
-const movieId = process.argv[2];
+async function main() {
+    if (process.argv.length !== 3) {
+        console.error("Usage: node script.js <Movie ID>");
+        process.exit(1);
+    }
 
-// Call the function with the movie ID
-getCharacterNames(movieId);
+    const movieId = process.argv[2];
+    const characters = await getMovieCharacters(movieId);
+    
+    if (characters.length > 0) {
+        characters.forEach(character => console.log(character));
+    } else {
+        console.log("No characters found for the provided Movie ID.");
+    }
+}
+
+main();
+
