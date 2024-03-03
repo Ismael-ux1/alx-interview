@@ -10,6 +10,9 @@ def makeChange(coins, total):
     This function calculates the minimum number of coins,
     needed to make a given total.
     """
+    if total < 0:
+        return -1
+
     # Initialize the dp table
     dp = [float('inf')] * (total + 1)
     dp[0] = 0
