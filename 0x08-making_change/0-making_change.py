@@ -18,10 +18,9 @@ def makeChange(coins, total):
     dp[0] = 0
 
     # Build the dp table
-    for i in range(1, total + 1):
-        for coin in coins:
-            if coin <= i:
-                dp[i] = min(dp[i], dp[i - coin] + 1)
+    for coin in coins:
+        for i in range(1, total + 1):
+            dp[i] = min(dp[i], dp[i - coin] + 1)
 
     if dp[total] == float('inf'):
         return -1  # Cannot be met
