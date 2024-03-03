@@ -13,23 +13,23 @@ def makeChange(coins, total):
     if total <= 0:
         return 0
 
-    memo = {}
-
-    def dp(target):
+    def dp(target, memo):
         if target < 0:
             return float('inf')
         if target == 0:
             return 0
-        if target in memo:
+        if memo[target] != -1:
             return memo[target]
 
         min_coins = float('inf')
         for coin in coins:
-            min_coins = min(min_coins, dp(target - coin) + 1)
+            if coin <= target:
+                min_coins = min(min_coins, dp(target - coin, memo) + 1)
 
         memo[target] = min_coins
         return min_coins
 
-    result = dp(total)
+    memo = [-1] * (total + 1)
+    result = dp(total, memo)
 
     return result if result != float('inf') else -1
