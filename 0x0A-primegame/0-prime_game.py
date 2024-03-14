@@ -3,8 +3,9 @@
 
 
 def isWinner(x, nums):
-    # Function to check if a number is prime
+    """ Determine who the winner of each game is. """
     def is_prime(n):
+        """ Function to check if a number is prime """
         if n < 2:
             return False
         for i in range(2, int(n**0.5) + 1):
