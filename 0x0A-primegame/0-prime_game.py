@@ -4,28 +4,31 @@
 
 def isWinner(x, nums):
     """ Determine who the winner of each game is. """
-    def is_prime(n):
-        """ Function to check if a number is prime """
-        if n < 2:
-            return False
-        for i in range(2, int(n**0.5) + 1):
-            if n % i == 0:
-                return False
-        return True
+    if not nums:
+        return None
 
-    # Function to simulate a round of the game and determine the winner
-    def game(n):
-        # Generate a list of prime numbers from 2 to n
-        primes = [i for i in range(2, n+1) if is_prime(i)]
-        # If the number of primes is odd, Maria wins (since she goes first)
+    # Create a sieve of Eratosthenes to find all the,
+    # prime numbers in the range [1, n]
+    sieve = [True] * (max(nums) + 1)
+    sieve[0] = sieve[1] = False
+    for i in range(2, int(max(nums) ** 0.5) + 1):
+        if sieve[i]:
+            for j in range(i * i, max(nums) + 1, i):
+                sieve[j] = False
+
+    # Keep track of the number of wins for each player
+    Maria_wins = 0
+    Ben_wins = 0
+
+    for n in nums:
+        # # Generate a list of prime numbers from 2 to n
+        primes = [i for i in range(2, n+1) if sieve[i]]
+        # If the number of primes is odd, Maria wins this round
         # If the number of primes is even, Ben wins
-        return len(primes) % 2 == 1
-
-    # Count the number of rounds Maria wins
-    Maria_wins = sum(game(n) for n in nums)
-    # The number of rounds Ben wins is the total number of rounds minus,
-    # the number of rounds Maria wins
-    Ben_wins = x - Maria_wins
+        if len(primes) % 2 == 1:
+            Maria_wins += 1
+        else:
+            Ben_wins += 1
 
     # Determine the overall winner
     if Maria_wins > Ben_wins:
