@@ -4,7 +4,7 @@
 
 def isWinner(x, nums):
     """ Determine who the winner of each game is. """
-    if not nums:
+    if x <= 0 or not nums:
         return None
 
     # Create a sieve of Eratosthenes to find all the,
